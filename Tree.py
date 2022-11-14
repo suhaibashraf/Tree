@@ -4,9 +4,8 @@ import random
 class Tree:
     def __init__(self, size=5):
         self.tree = dict()
-        self.dept = dict()
         self.pnSize = size  # Total number of parent nodes
-
+        self.distance = []
         self.build_tree()
 
     def build_tree(self):
@@ -42,13 +41,38 @@ class Tree:
 
         return random.randint(min_limit, max_limit)
 
+    def set_distance(self, goal):
+        t = route_finder(self.tree, str(goal), [])
+        for i in range(1, len(self.tree)+1):
+            # print(self.tree['1'])
+            if i == goal:
+                self.distance.append([i, goal, 0])
+                continue
+            if str(i) in t:
+                self.distance.append([i, goal, random.randint(1, 2)])
+                continue
+            self.distance.append([i, goal, random.randint(1, (abs(goal-i)))])
+        print(self.distance)
 
-# def route_finder(tree, node, route_list):
-#     for parent, child in tree.items():
-#         if node in child:
-#             route_list.insert(0, parent)
-#             break
-#     if route_list[0] != list(tree.keys())[0]:
-#         route_finder(tree, route_list[0], route_list)
-#
-#     return route_list
+    def sorted_child(self, node):
+        siblings = self.tree[str(node)]
+        # print(self.distance)
+        dist = []
+        for child in siblings:
+            for d in self.distance:
+                if d[0] == int(child):
+                    dist.append(d[2])
+
+        return [x for _, x in sorted(zip(dist, siblings))]
+
+
+def route_finder(tree, node, route_list):
+    for parent, child in tree.items():
+        if node in child:
+            route_list.insert(0, parent)
+            break
+    if len(route_list):
+        if route_list[0] != list(tree.keys())[0]:
+            route_finder(tree, route_list[0], route_list)
+
+    return route_list
