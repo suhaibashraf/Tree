@@ -51,19 +51,20 @@ class Tree:
             if str(i) in t:
                 self.distance.append([i, goal, random.randint(1, 2)])
                 continue
-            self.distance.append([i, goal, random.randint(2, (abs(goal-i)))])
+            self.distance.append([i, goal, random.randint(1, (abs(goal-i)))])
         print(self.distance)
 
-    def sorted_child(self, node):
+    def sorted_child(self, node, n=None):
         siblings = self.tree[str(node)]
-        # print(self.distance)
-        dist = []
-        for child in siblings:
+        if not n:
+            n = len(siblings)
+        dist_wise = []
+        for sibling in siblings:
             for d in self.distance:
-                if d[0] == int(child):
-                    dist.append(d[2])
+                if d[0] == int(sibling):
+                    dist_wise.append(d[2])
 
-        return [x for _, x in sorted(zip(dist, siblings))]
+        return [x for _, x in sorted(zip(dist_wise[:n], siblings[:n]))]
 
 
 def route_finder(tree, node, route_list):
