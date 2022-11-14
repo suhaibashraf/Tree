@@ -51,7 +51,7 @@ class Tree:
             if str(i) in t:
                 self.distance.append([i, goal, random.randint(1, 2)])
                 continue
-            self.distance.append([i, goal, random.randint(3, (abs(goal-i)))])
+            self.distance.append([i, goal, random.randint(2, (abs(goal-i)))])
         print(self.distance)
 
     def sorted_child(self, node):
