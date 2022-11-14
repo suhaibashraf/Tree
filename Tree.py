@@ -54,9 +54,9 @@ class Tree:
             self.distance.append([i, goal, random.randint(1, (abs(goal-i)))])
         print(self.distance)
 
-    def sorted_child(self, node, n=None):
+    def sorted_child(self, node, n=0):
         siblings = self.tree[str(node)]
-        if not n:
+        if n == 0:
             n = len(siblings)
         dist_wise = []
         for sibling in siblings:
